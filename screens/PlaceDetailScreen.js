@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
 const PlaceDetailScreen = props => {
   return (
@@ -10,5 +10,11 @@ const PlaceDetailScreen = props => {
 };
 
 const styles = StyleSheet.create({});
+
+PlaceDetailScreen.navigationOptions = navData => {
+  return {
+    headerTitle: navData.navigation.getParam("placeTitle")
+  };
+};
 
 export default PlaceDetailScreen;
