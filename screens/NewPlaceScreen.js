@@ -14,14 +14,19 @@ import ImgPicker from "../components/ImageSelector";
 
 const NewPlaceScreen = props => {
   const [title, setTitle] = useState();
+  const [image, setImage] = useState();
   const dispatch = useDispatch();
 
   const titleHandlerChange = text => {
     setTitle(text);
   };
 
+  const imageTakenHandler = url => {
+    setImage(url);
+  };
+
   const savePlaceHandler = () => {
-    dispatch(PlacesActions.addPlace(title));
+    dispatch(PlacesActions.addPlace(title, image));
   };
 
   return (
@@ -33,7 +38,7 @@ const NewPlaceScreen = props => {
           onChangeText={titleHandlerChange}
           value={title}
         />
-        <ImgPicker />
+        <ImgPicker onImageTaken={imageTakenHandler} />
         <Button
           title="Salvar local"
           color={Colors.primary}
