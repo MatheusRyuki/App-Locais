@@ -1,7 +1,9 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Platform } from "react-native";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector } from "react-redux";
 import PlaceItem from "../components/PlaceItem";
+import HeaderButton from "../components/HeaderButton";
 
 const PlacesListScreen = props => {
   const places = useSelector(state => state.places.places);
@@ -27,8 +29,21 @@ const PlacesListScreen = props => {
   );
 };
 
-PlacesListScreen.navigationOptions = {
-  headerTitle: "Todos os lugares"
+PlacesListScreen.navigationOptions = navData => {
+  return {
+    headerTitle: "Todos os lugares",
+    headerRight: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Add Place"
+          iconName={Platform.OS === "android" ? "md-add" : "ios-add"}
+          onPress={() => {
+            navData.navigation.navigate("NewPlace");
+          }}
+        />
+      </HeaderButtons>
+    )
+  };
 };
 
 const styles = StyleSheet.create({});
