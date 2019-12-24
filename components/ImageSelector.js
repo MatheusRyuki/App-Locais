@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, Image, Alert } from "react-native";
 import Colors from "../constants/Colors";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
 const ImgPicker = props => {
+  const [image, setImage] = useState();
   const verifyPermissions = async () => {
     const result = await Permissions.askAsync(
       Permissions.CAMERA,
       Permissions.CAMERA_ROLL
     );
     if (result.status !== "granted") {
-      Alert.alert("Permissões insuficientes", "Você precisa da permissão", [
+      Alert.alert("Permissões insuficientes", "Você precisa dar permissão", [
         { text: "Ok" }
       ]);
       return false;
@@ -24,14 +25,23 @@ const ImgPicker = props => {
     if (!hasPermission) {
       return;
     }
-    ImagePicker.launchCameraAsync();
+    const image = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.5
+    });
+
+    setImage(image.uri);
   };
 
   return (
     <View style={styles.imagePicker}>
       <View style={styles.imagePreview}>
-        <Text>Nenhuma imagem foi escolhida.</Text>
-        <Image style={styles.image} />
+        {image ? (
+          <Image style={styles.image} source={{ uri: image }} />
+        ) : (
+          <Text>Nenhuma imagem foi escolhida.</Text>
+        )}
       </View>
       <Button
         title="Tirar foto"
