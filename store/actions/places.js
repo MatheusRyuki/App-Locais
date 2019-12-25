@@ -40,7 +40,7 @@ export const addPlace = (title, image, location) => {
       dispatch({
         type: ADD_PLACE,
         placeData: {
-          id: dbResult.inserId,
+          id: dbResult.insertId,
           title,
           image: newPath,
           address: address.street,

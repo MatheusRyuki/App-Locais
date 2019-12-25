@@ -31,8 +31,9 @@ const NewPlaceScreen = props => {
     setLocation(location);
   }, []);
 
-  const savePlaceHandler = () => {
-    dispatch(PlacesActions.addPlace(title, image, location));
+  const savePlaceHandler = async () => {
+    await dispatch(PlacesActions.addPlace(title, image, location));
+    props.navigation.navigate("Places");
   };
 
   return (
