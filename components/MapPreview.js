@@ -1,24 +1,24 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import ENV from "../env";
 
 const MapPreview = props => {
   let imagePreviewUrl;
 
   if (props.location) {
-    imagePreviewUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${props.location.lat},${props.location.lng}&zoom=14&size=400x200&maptype=roadmap
-&markers=color:red%7Clabel:A%7C${props.location.lat},${props.location.lng}
-&key=${ENV.googleApiKey}`;
+    imagePreviewUrl = `https://www.mapquestapi.com/staticmap/v5/map?key=${ENV.ApiKey}&locations=${props.location.lat},${props.location.lng}|marker-ff0000&center=${props.location.lat},${props.location.lng}&zoom=14&size=400,200`;
   }
-
   return (
-    <View style={{ ...props.style, ...styles.mapPreview }}>
+    <TouchableOpacity
+      style={{ ...props.style, ...styles.mapPreview }}
+      onPress={props.onPress}
+    >
       {props.location ? (
         <Image style={styles.image} source={{ uri: imagePreviewUrl }} />
       ) : (
         props.children
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 

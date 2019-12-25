@@ -33,7 +33,7 @@ const LocationPicker = props => {
       return;
     }
     try {
-      setLocation(true);
+      setLoading(true);
       const location = await Location.getCurrentPositionAsync({
         timeout: 5000
       });
@@ -46,34 +46,48 @@ const LocationPicker = props => {
         { text: "OK" }
       ]);
     }
+    setLoading(false);
+  };
+
+  const pickOnMapHandler = () => {
+    props.navigation.navigate("Map");
   };
 
   return (
     <View style={styles.locationPicker}>
-      <MapPreview style={styles.mapPreview} location={location}>
+      <MapPreview
+        style={styles.mapPreview}
+        location={location}
+        onPress={pickOnMapHandler}
+      >
         {loading ? (
           <ActivityIndicator size={"large"} color={Colors.primary} />
         ) : (
           <Text>Nenhum Lugar escolhido!</Text>
         )}
       </MapPreview>
-      <View style={styles.mapPreview}>
-        {loading ? (
-          <ActivityIndicator size={"large"} color={Colors.primary} />
-        ) : (
-          <Text>Nenhum Lugar escolhido!</Text>
-        )}
+      <View style={styles.action}>
+        <Button
+          title="Localização"
+          color={Colors.primary}
+          onPress={getLocationHandler}
+        />
+        <Button
+          title="Escolha no mapa"
+          color={Colors.primary}
+          onPress={pickOnMapHandler}
+        />
       </View>
-      <Button
-        title="Localização"
-        color={Colors.primary}
-        onPress={getLocationHandler}
-      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  action: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%"
+  },
   locationPicker: {
     marginBottom: 15
   },
