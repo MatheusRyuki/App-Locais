@@ -64,8 +64,16 @@ const LocationPicker = props => {
     setLoading(false);
   };
 
-  const pickOnMapHandler = () => {
-    props.navigation.navigate("Map");
+  const pickOnMapHandler = async () => {
+    const location = await Location.getCurrentPositionAsync({
+      timeout: 5000
+    });
+    props.navigation.navigate("Map", {
+      initialLocation: {
+        lat: location.coords.latitude,
+        lng: location.coords.longitude
+      }
+    });
   };
 
   return (

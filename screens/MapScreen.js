@@ -3,10 +3,10 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 const MapScreen = props => {
-  const [location, setLocation] = useState(initialLocation);
   const initialLocation = props.navigation.getParam("initialLocation");
   const readonly = props.navigation.getParam("readonly");
 
+  const [location, setLocation] = useState(initialLocation);
   const mapRegion = {
     latitude: initialLocation.lat,
     longitude: initialLocation.lng,
