@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import React, { useState, useCallback, useEffect } from "react";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 const MapScreen = props => {
@@ -28,6 +28,17 @@ const MapScreen = props => {
     };
   }
 
+  useEffect(() => {
+    props.navigation.setParams({ saveLocation: saveHandler });
+  }, [saveHandler, location]);
+
+  const saveHandler = useCallback(() => {
+    if (!location) {
+      return;
+    }
+    props.navigation.navigate("NewPlace", { pickedLocation: location });
+  }, [location]);
+
   return (
     <MapView style={styles.map} region={mapRegion} onPress={selectHandler}>
       {markerCoordinates && (
@@ -37,9 +48,28 @@ const MapScreen = props => {
   );
 };
 
+MapScreen.navigationOptions = navData => {
+  const saveFn = navData.navigation.getParam("saveLocation");
+
+  return {
+    headerRight: (
+      <TouchableOpacity style={styles.header} onPress={saveFn}>
+        <Text style={styles.buttonText}>Salvar</Text>
+      </TouchableOpacity>
+    )
+  };
+};
+
 const styles = StyleSheet.create({
   map: {
     flex: 1
+  },
+  header: {
+    marginHorizontal: 20
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "white"
   }
 });
 
