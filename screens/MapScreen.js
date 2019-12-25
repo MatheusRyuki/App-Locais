@@ -3,16 +3,21 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 const MapScreen = props => {
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState(initialLocation);
+  const initialLocation = props.navigation.getParam("initialLocation");
+  const readonly = props.navigation.getParam("readonly");
 
   const mapRegion = {
-    latitude: 37.2,
-    longitude: 35.3,
+    latitude: initialLocation.lat,
+    longitude: initialLocation.lng,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421
   };
 
   const selectHandler = event => {
+    if (readonly) {
+      return;
+    }
     setLocation({
       lat: event.nativeEvent.coordinate.latitude,
       lng: event.nativeEvent.coordinate.longitude
@@ -50,6 +55,11 @@ const MapScreen = props => {
 
 MapScreen.navigationOptions = navData => {
   const saveFn = navData.navigation.getParam("saveLocation");
+  const readonly = navData.navigation.getParam("readonly");
+
+  if (readonly) {
+    return {};
+  }
 
   return {
     headerRight: (
