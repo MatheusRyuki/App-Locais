@@ -10,6 +10,7 @@ import {
 import * as Location from "expo-location";
 import * as Permission from "expo-permissions";
 import Colors from "../constants/Colors";
+import MapPreview from "./MapPreview";
 
 const LocationPicker = props => {
   const [location, setLocation] = useState();
@@ -49,6 +50,13 @@ const LocationPicker = props => {
 
   return (
     <View style={styles.locationPicker}>
+      <MapPreview style={styles.mapPreview} location={location}>
+        {loading ? (
+          <ActivityIndicator size={"large"} color={Colors.primary} />
+        ) : (
+          <Text>Nenhum Lugar escolhido!</Text>
+        )}
+      </MapPreview>
       <View style={styles.mapPreview}>
         {loading ? (
           <ActivityIndicator size={"large"} color={Colors.primary} />
