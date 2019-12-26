@@ -8,7 +8,8 @@ export const SET_PLACES = "SET_PLACES";
 export const addPlace = (title, image, location) => {
   return async dispatch => {
     const response = await fetch(
-      `http://www.mapquestapi.com/geocoding/v1/reverse?key=${ENV.ApiKey}&location=${location.lat},${location.lng}`
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${location.lat},${location.lng}&key=${ENV.ApiKey}
+`
     );
 
     if (!response.ok) {
@@ -20,8 +21,7 @@ export const addPlace = (title, image, location) => {
       throw new Error("Algo saiu errado");
     }
 
-    const address = resData.results[0].locations[0];
-
+    const address = resData.results[0];
     const fileName = image.split("/").pop();
     const newPath = FileSystem.documentDirectory + fileName;
 
@@ -33,7 +33,7 @@ export const addPlace = (title, image, location) => {
       const dbResult = await insertPlace(
         title,
         newPath,
-        address.street,
+        address.formatted_address,
         location.lat,
         location.lng
       );
@@ -43,7 +43,7 @@ export const addPlace = (title, image, location) => {
           id: dbResult.insertId,
           title,
           image: newPath,
-          address: address.street,
+          address: address.formatted_address,
           coords: {
             lat: location.lat,
             lng: location.lng

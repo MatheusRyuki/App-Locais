@@ -6,7 +6,9 @@ const MapPreview = props => {
   let imagePreviewUrl;
 
   if (props.location) {
-    imagePreviewUrl = `https://www.mapquestapi.com/staticmap/v5/map?key=${ENV.ApiKey}&locations=${props.location.lat},${props.location.lng}|marker-ff0000&center=${props.location.lat},${props.location.lng}&zoom=14&size=400,200`;
+    imagePreviewUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${props.location.lat},${props.location.lng}&zoom=14&size=400x200&maptype=roadmap
+&markers=color:red%7Clabel:C%7C${props.location.lat},${props.location.lng}
+&key=${ENV.ApiKey}`;
   }
   return (
     <TouchableOpacity

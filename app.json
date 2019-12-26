@@ -17,12 +17,20 @@
       "fallbackToCacheTimeout": 0
     },
     "android": {
-      "package": "com.empresakaiya.lugares"
+      "package": "com.empresakaiya.lugares",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDBz8Uyq52qV4HfvYf51L6057x-6iTrY04"
+        }
+      }
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.empresakaiya.lugares"
+      "bundleIdentifier": "com.empresakaiya.lugares",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDBz8Uyq52qV4HfvYf51L6057x-6iTrY04"
+      }
     }
   }
 }
