@@ -65,15 +65,25 @@ const LocationPicker = props => {
   };
 
   const pickOnMapHandler = async () => {
-    const location = await Location.getCurrentPositionAsync({
-      timeout: 5000
-    });
-    props.navigation.navigate("Map", {
-      initialLocation: {
-        lat: location.coords.latitude,
-        lng: location.coords.longitude
-      }
-    });
+    const hasPermission = await verifyPermissions();
+    if (!hasPermission) {
+      return;
+    }
+    try {
+      const location = await Location.getCurrentPositionAsync({
+        timeout: 5000
+      });
+      props.navigation.navigate("Map", {
+        initialLocation: {
+          lat: location.coords.latitude,
+          lng: location.coords.longitude
+        }
+      });
+    } catch {
+      Alert.alert("Não foi possível pegar o local!", "Tente novamente", [
+        { text: "OK" }
+      ]);
+    }
   };
 
   return (
